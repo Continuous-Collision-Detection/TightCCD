@@ -214,7 +214,7 @@ namespace bsc_tightbound {
 
 
 	template <class T>
-	inline floating<T> _evaluateBezier2(const floating<T> &p0, const floating<T> &p1, const floating<T> &p2, 
+	inline floating<T> _evaluateBezier2(const floating<T> &p0, const floating<T> &p1, const floating<T> &p2,
 		const floating<T> &t, const floating<T> &s)
 	{
 		floating<T> s2 = s*s;
@@ -460,7 +460,7 @@ namespace bsc_tightbound {
 	}
 
 	template <class T>
-	inline int bezierClassification(const floating<T>& k0, const floating<T>& k1, const floating<T>& k2, const floating<T>& k3, 
+	inline int bezierClassification(const floating<T>& k0, const floating<T>& k1, const floating<T>& k2, const floating<T>& k3,
 		floating<T> &kk0, floating<T> &kk1, floating<T> &kk2)
 	{
 		if (k0.sign() > 0 && k1.sign() < 0 && k2.sign() < 0 && k3.sign() < 0){
@@ -512,7 +512,7 @@ namespace bsc_tightbound {
 		kk1 = k2 - k1;
 		kk2 = k3 - k2;
 
-		//printf("%.32f %.32f %.32f %.32f %.32f %.32f %.32f %.32f %.32f\n", 
+		//printf("%.32f %.32f %.32f %.32f %.32f %.32f %.32f %.32f %.32f\n",
 			//k0.sigma, k1.sigma, k2.sigma, k3.sigma, kk0.sigma, kk1.sigma, kk2.sigma, a.sigma, b.sigma);
 		/*printf("%.32f %.32f %.32f %.32f %.32f %.32f",
 			k0.sigma, k3.sigma, kk0.sigma, kk2.sigma, a.sigma, b.sigma);*/
@@ -537,7 +537,7 @@ namespace bsc_tightbound {
 	inline int coplanarTest(bcrv<T> &c)
 	{
 		//printf("T-bound: k0:%.32f k1:%.32f k2:%.32f k3:%.32f kk0:%.32f kk1:%.32f kk2:%.32f\n", c.k0.sigma, c.k1.sigma, c.k2.sigma, c.k3.sigma, c.kk0.sigma, c.kk1.sigma, c.kk2.sigma);
-		
+
 		if (c.k0.sign() == 0 && c.k3.sign() == 0){
 			return 2; //conservative operation
 		}
@@ -582,9 +582,9 @@ namespace bsc_tightbound {
 				//T t = lineRoot(c.kk0, c.kk2);
 				//T fk = evaluateBezier(c.k0, c.k1, c.k2, c.k3, t);
 				//T fk = _evaluateBezier(c.k0, c.k1, c.k2, c.k3, c.kk0,-c.kk2);
-				
+
 				floating<T> fk = _evaluateBezier(c.k0, c.k1, c.k2, c.k3, c.kk0, -(c.kk1*T(2.0) - c.kk0));//fk is the value of extreme point
-				
+
 				if ((c.kk0 - c.kk1).sign() == 0){
 					return 2;//conservative operation
 				}
@@ -608,7 +608,7 @@ namespace bsc_tightbound {
 				//T fk = evaluateBezier(c.k0, c.k1, c.k2, c.k3, t);
 				//T fk = _evaluateBezier(c.k0, c.k1, c.k2, c.k3, c.kk0, -c.kk2);
 				floating<T> fk = _evaluateBezier(c.k0, c.k1, c.k2, c.k3, c.kk0, -(c.kk1*floating<T>(2.0, 0) - c.kk0));//fk is the value of extreme point
-				
+
 				if ((c.kk0 - c.kk1).sign() == 0)
 					return 2;//conservative operation
 
@@ -680,7 +680,7 @@ namespace bsc_tightbound {
 			//T fk = evaluateBezier2(c.kk0, c.kk1, c.kk2, t);
 			//T fk = _evaluateBezier2(c.k0, c.k1, c.k2, t0, -t1);
 			floating<T> fk = _evaluateBezier2(c.kk0, c.kk1, c.kk2, t0, -t1);//fk = Y'(t_T)
-			
+
 			if (fk.sign() == 0)
 				return 2;//conservative operation
 
@@ -703,6 +703,7 @@ namespace bsc_tightbound {
 					return 2;//conservative operation if(t0.sign()==0)
 			}
 		}
+		throw "TightCCD: coplanarTest failed";
 	}
 
 
@@ -939,11 +940,11 @@ namespace bsc_tightbound {
 				continue;
 			}
 
-			// kill an possiblity 
+			// kill an possiblity
 			if (sameSign(lt0, kt0) == RETURN_TRUE)
 				bt0[i] = false;//bt0 = false;//wzd modify 2015.1.28
 
-			// kill an possiblity 
+			// kill an possiblity
 			if (sameSign(lt1, kt1) == RETURN_TRUE)
 				bt1[i] = false;//bt1 = false;//wzd modify 2015.1.28
 
@@ -1065,11 +1066,11 @@ namespace bsc_tightbound {
 				continue;
 			}
 
-			// kill an possiblity 
+			// kill an possiblity
 			if (sameSign(lt0, kt0) == RETURN_TRUE)
 				bt0[i] = false;//bt0 = false;//wzd modify 2015.1.28
 
-			// kill an possiblity 
+			// kill an possiblity
 			if (sameSign(lt1, kt1) == RETURN_TRUE)
 				bt1[i] = false;//bt1 = false;//wzd modify 2015.1.28
 
@@ -1106,7 +1107,7 @@ namespace bsc_tightbound {
 		floating<T> l3 = (division - t)*(division - t)*(division - t)*k0 + floating<T>(3.0, 0)*t*(division - t)*(division - t)*k1
 			+ floating<T>(3.0, 0)*t*t*(division - t)*k2 + t*t*t*k3;
 
-		//(1-t)^3*k0 + 3*(1-t)^2*t*k1 + 3*(1-t)*t^2*k2 + t^3*k3, (1-t)^2*k1 + 2*(1-t)*t*k2 + t^2*k3, (1-t)*k2 + t*k3, k3 
+		//(1-t)^3*k0 + 3*(1-t)^2*t*k1 + 3*(1-t)*t^2*k2 + t^3*k3, (1-t)^2*k1 + 2*(1-t)*t*k2 + t^2*k3, (1-t)*k2 + t*k3, k3
 		floating<T> r0 = l3;
 		floating<T> r1 = ((division - t)*(division - t)*k1 + floating<T>(2.0, 0) * t*(division - t)*k2 + t*t*k3)*division;
 		floating<T> r2 = ((division - t) * k2 + t * k3) * division * division;
@@ -1203,7 +1204,7 @@ namespace bsc_tightbound {
 		}
 
 		if (!left && !right)//
-			return false;//return -1;//             //here has false negatives 
+			return false;//return -1;//             //here has false negatives
 
 		return true;
 	}
@@ -1253,7 +1254,7 @@ namespace bsc_tightbound {
 			for (int i = 0; i < 3; i++){
 				getBezier4(a0, b0, c0, d0, a1, b1, c1, d1, n0, n1, deltaN, nX, g[i * 5 + 0], g[i * 5 + 1], g[i * 5 + 2], g[i * 5 + 3], g[i * 5 + 4], i, ee_test);
 			}
-			
+
 			//std::cout << std::endl;
 
 			return subdivide(k0, k1, k2, k3, g);//here has false negatives
@@ -1268,7 +1269,7 @@ namespace bsc_tightbound {
 		//std::cout << std::endl;
 
 		if (root_nums == 0)
-			return false;//return -1;// 
+			return false;//return -1;//
 
 		floating<T> g[15]; // for inside test
 		for (int i = 0; i < 3; i++){
@@ -1301,7 +1302,7 @@ namespace bsc_tightbound {
 			return false;*/
 
 		int ret = Intersect_robust(d_a0, d_b0, d_c0, d_d0, d_a1, d_b1, d_c1, d_d1, false);
-		
+
 		return ret;
 	}
 
